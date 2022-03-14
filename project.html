@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>  
+    <!-- The Github workout -->    
+    <!-- Some more updated context -->
+   <head>
+      <div id="map" width:fit-content; height:fit-content; display:inline-block> </div>     
+      <meta name="apple-mobile-web-app-capable" content="yes" />      
+      <style type="text/css">
+         html, body, #map {
+             height:1200px;
+             width:100%;                 
+             padding: 0;
+             margin:0;
+             margin-left:0; 
+         }
+     </style>    
+     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+     <script type="text/javascript">
+             var element = document.getElementById("map"); 
+             const ClaruswayString =
+             '<div id="content">' +
+             '<div id="siteNotice">' +
+             "</div>" +            
+             '<h1 id="firstHeading" class="firstHeading">Clarusway Google Maps</h1>' +
+             '<div id="bodyContent">' +
+             "<h4>ClarusWay Address</h4><br/>" +
+             "1775 Tysons Blvd 5th floor, Tysons, VA 22102, United States</p>" +
+             '<p>Attribution: 1775 Tysons Blvd 5th floor, Tysons, VA 22102, United States, <a href="https://clarusway.com/">' +
+             "https://clarusway.com/</a> " +
+             "(last visited March 22, 2022).</p>" +           
+             "</div>" +
+             "</div>";
+ 
+             const infowindow = new google.maps.InfoWindow({
+                 content: ClaruswayString,
+             });
+ 
+             /*
+             Build list of map types.
+             You can also use var mapTypeIds = ["roadmap", "satellite", "hybrid", "terrain", "OSM"]
+             but static lists suck when Google updates the default list of map types.
+             */
+             var mapTypeIds = ["roadmap", "satellite", "hybrid", "terrain", "OSM"];
+             for(var type in google.maps.MapTypeId) {
+                 mapTypeIds.push(google.maps.MapTypeId[type]);
+             }
+             mapTypeIds.push("OSM");
+ 
+             var map = new google.maps.Map(element, {
+                 center: new google.maps.LatLng(38.923801,-77.222160),
+                 zoom: 13,
+                 mapTypeId: "OSM",
+                 mapTypeControlOptions: {
+                     mapTypeIds: mapTypeIds
+                 }
+             });
+ 
+             //var mrk1 = { lat:38.457247, lng:27.116544 };
+             var marker = new google.maps.Marker({ position:{ lat:38.923801, lng:-77.222160 }, title:"Device Nr 11-335"});
+             marker.setMap(map);
+             marker = new google.maps.Marker({ position:{lat:38.985483, lng:-77.472026}, title:"Device Nr 12-776"});
+             marker.setMap(map);
+             marker = new google.maps.Marker({ position:{lat:38.905461, lng:-76.953158}, title:"Device Nr 13-4476"});
+             marker.setMap(map);
+             marker = new google.maps.Marker({ position:{lat:38.888093, lng:-77.211359}, title:"Device Nr 14-796"});
+             marker.setMap(map);
+ 
+             marker.addListener("click", () => {
+             infowindow.open({
+               anchor: marker,
+               map,
+               shouldFocus: false,
+                });
+             });  
+             map.mapTypes.set("OSM", new google.maps.ImageMapType({
+                 getTileUrl: function(coord, zoom) {
+                     // See above example if you need smooth wrapping at 180th meridian
+                     return "https://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+                 },
+                 tileSize: new google.maps.Size(256, 256),
+                 name: "OpenStreetMap",
+                 maxZoom: 18
+             }));
+ 
+      </script>          
+   </head>   
+   <body>
+      
+   </body>   
+</html>
